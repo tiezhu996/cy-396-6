@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { ProductStatus } from '../../constants/enums';
 
-export type Product = { id: number; name: string; category: string; price: number; stock: number; specs: Record<string, string>; images: string[]; skus: Array<{ code: string; price: number; stock: number }>; sales: number };
+export type Product = { id: number; name: string; category: string; price: number; stock: number; status: ProductStatus; specs: Record<string, string>; images: string[]; skus: Array<{ code: string; price: number; stock: number }>; sales: number };
 
 @Injectable()
 export class ProductService {
-  private products: Product[] = [{ id: 1, name: '陶艺入门泥料包', category: 'pottery', price: 68, stock: 80, specs: { weight: '2kg' }, images: ['/uploads/clay.jpg'], skus: [{ code: 'CLAY-2KG', price: 68, stock: 80 }], sales: 15 }];
+  private products: Product[] = [{ id: 1, name: '陶艺入门泥料包', category: 'pottery', price: 68, stock: 80, status: ProductStatus.OnSale, specs: { weight: '2kg' }, images: ['/uploads/clay.jpg'], skus: [{ code: 'CLAY-2KG', price: 68, stock: 80 }], sales: 15 }];
 
   create(payload: Omit<Product, 'id' | 'sales'>) {
     const product = { ...payload, id: Date.now(), sales: 0 };
@@ -20,7 +21,10 @@ export class ProductService {
 
   findByMaterialNames(materialNames: string[]): Product[] {
     return this.products.filter(
-      (product) => product.stock > 0 && materialNames.some((material) => product.name.includes(material) || material.includes(product.name))
+      (product) =>
+        product.status === ProductStatus.OnSale &&
+        product.stock > 0 &&
+        materialNames.some((material) => product.name.includes(material) || material.includes(product.name))
     );
   }
 }

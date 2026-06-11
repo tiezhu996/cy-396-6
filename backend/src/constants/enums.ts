@@ -2,3 +2,4 @@ export enum TutorialCategory { Knitting = 'knitting', Woodwork = 'woodwork', Pot
 export enum TutorialStatus { Draft = 'draft', Pending = 'pending_review', Published = 'published', Offline = 'offline' }
 export enum OrderStatus { PendingPay = 'pending_pay', PendingShip = 'pending_ship', Shipped = 'shipped', Completed = 'completed', Reviewed = 'reviewed' }
 export enum Difficulty { Beginner = 'beginner', Intermediate = 'intermediate', Advanced = 'advanced' }
+export enum ProductStatus { Draft = 'draft', OnSale = 'on_sale', OffSale = 'off_sale' }

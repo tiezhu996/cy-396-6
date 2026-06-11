@@ -16,7 +16,7 @@ export class TutorialController {
   hot() { return this.service.hot(); }
 
   @Put(':id/publish')
-  publish(@Param('id') id: string) { return this.service.publish(Number(id)); }
+  publish(@Param('id') id: string) { return this.service.updateStatus(Number(id), TutorialStatus.Published); }
 
   @Patch(':id/status')
   updateStatus(@Param('id') id: string, @Body('status') status: TutorialStatus) { return this.service.updateStatus(Number(id), status); }
