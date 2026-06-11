@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-type Product = { id: number; name: string; category: string; price: number; stock: number; specs: Record<string, string>; images: string[]; skus: Array<{ code: string; price: number; stock: number }>; sales: number };
+export type Product = { id: number; name: string; category: string; price: number; stock: number; specs: Record<string, string>; images: string[]; skus: Array<{ code: string; price: number; stock: number }>; sales: number };
 
 @Injectable()
 export class ProductService {
@@ -17,4 +17,10 @@ export class ProductService {
   }
 
   bestSellers() { return [...this.products].sort((a, b) => b.sales - a.sales); }
+
+  findByMaterialNames(materialNames: string[]): Product[] {
+    return this.products.filter(
+      (product) => product.stock > 0 && materialNames.some((material) => product.name.includes(material) || material.includes(product.name))
+    );
+  }
 }

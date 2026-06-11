@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { TutorialStatus } from '../../constants/enums';
 import { TutorialService } from './tutorial.service';
 
@@ -14,6 +14,9 @@ export class TutorialController {
 
   @Get('hot')
   hot() { return this.service.hot(); }
+
+  @Put(':id/publish')
+  publish(@Param('id') id: string) { return this.service.publish(Number(id)); }
 
   @Patch(':id/status')
   updateStatus(@Param('id') id: string, @Body('status') status: TutorialStatus) { return this.service.updateStatus(Number(id), status); }

@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 
+export type Follower = { userId: number; authorId: number };
+export type Favorite = { userId: number; targetType: 'tutorial' | 'product'; targetId: number };
+
 @Injectable()
 export class UserService {
-  private follows: Array<{ userId: number; authorId: number }> = [];
-  private favorites: Array<{ userId: number; targetType: 'tutorial' | 'product'; targetId: number }> = [];
+  private follows: Follower[] = [];
+  private favorites: Favorite[] = [];
 
   follow(userId: number, authorId: number) {
     this.follows.push({ userId, authorId });
@@ -17,5 +20,9 @@ export class UserService {
 
   feed(userId: number) {
     return { follows: this.follows.filter((item) => item.userId === userId), latest: ['作者发布了新的皮具教程', '收藏商品库存已更新'] };
+  }
+
+  getFollowers(authorId: number): number[] {
+    return this.follows.filter((item) => item.authorId === authorId).map((item) => item.userId);
   }
 }
